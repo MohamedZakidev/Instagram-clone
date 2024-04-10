@@ -1,5 +1,4 @@
 import { seedDatabase } from "../seed";
-
 const firebaseConfig = {
   apiKey: "AIzaSyCyDDHCe45peLv2U7XIYQ7yeVD7B6nhMCc",
   authDomain: "instagram-clone-d87ed.firebaseapp.com",
@@ -12,7 +11,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebase = window.firebase.initializeApp(firebaseConfig);
 const { FieldValue } = window.firebase.firestore;
-
 seedDatabase(firebase);
+console.log(firebase);
 
 export { firebase, FieldValue };
