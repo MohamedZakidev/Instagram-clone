@@ -1,4 +1,16 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  query,
+  where,
+} from "firebase/firestore/lite";
 import { seedDatabase } from "../seed";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCyDDHCe45peLv2U7XIYQ7yeVD7B6nhMCc",
   authDomain: "instagram-clone-d87ed.firebaseapp.com",
@@ -9,9 +21,9 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebase = window.firebase.initializeApp(firebaseConfig);
-const { FieldValue } = window.firebase.firestore;
-seedDatabase(firebase);
-console.log(firebase);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+// seedDatabase(firebase);
+console.log(app);
 
-export { firebase, FieldValue };
+export { db };
