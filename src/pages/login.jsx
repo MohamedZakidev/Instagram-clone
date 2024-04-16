@@ -4,14 +4,14 @@ import * as ROUTES from '../constants/routes';
 
 export default function Login() {
     return (
-        <div className="container flex mx-auto max-w-screen-md items-center h-screen">
+        <div className="border-8 container flex mx-auto max-w-screen-md items-center h-screen">
             <div className="flex w-3/5">
-                <img src="/images/iphone-with-profile.jpg" alt="iPhone with Instagram app" />
+                <img src="iphone-with-profile.jpg" alt="iPhone with Instagram app" />
             </div>
             <div className="flex flex-col w-2/5">
                 <div className="flex flex-col items-center bg-white p-4 border mb-4">
                     <h1 className="flex justify-center w-full">
-                        <img src="/images/logo.png" alt="Instagram" className="mt-2 w-6/12 mb-4" />
+                        <img src="logo.png" alt="Instagram" className="mt-2 w-6/12 mb-4" />
                     </h1>
 
                     <form method="POST">
