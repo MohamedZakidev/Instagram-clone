@@ -14,11 +14,13 @@ export default function App() {
     <Suspense fallback={<p>loading...</p>}>
       <BrowserRouter>
         <Routes>
-          <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-          <Route path={ROUTES.LOGIN} element={<Login />} />
-          <Route path={ROUTES.SIGNUP} element={<Signup />} />
-          <Route path={ROUTES.PROFILE} element={<Profile />} />
-          <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+          <Route path={ROUTES.DASHBOARD}>
+            <Route index element={<Dashboard />} />
+            <Route path={ROUTES.LOGIN} element={<Login />} />
+            <Route path={ROUTES.SIGNUP} element={<Signup />} />
+            <Route path={ROUTES.PROFILE} element={<Profile />} />
+            <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </Suspense>
