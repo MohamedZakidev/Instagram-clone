@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
 import FirebaseContext from "../context/firebase"
 
@@ -15,12 +15,15 @@ export default function Login() {
 
     const { firebase } = useContext(FirebaseContext)
 
+    const navigate = useNavigate()
+
     async function handleLogin(e) {
         e.preventDefault()
 
         try {
             await firebase.auth().signInWithEmailAndPassword(email, password);
-            Navigate(ROUTES.DASHBOARD)
+            console.log("succ")
+            navigate(ROUTES.DASHBOARD)
         }
         catch (error) {
             setEmail("")
