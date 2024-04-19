@@ -22,7 +22,6 @@ export default function Login() {
 
         try {
             await firebase.auth().signInWithEmailAndPassword(email, password);
-            console.log("succ")
             navigate(ROUTES.DASHBOARD)
         }
         catch (error) {
@@ -80,7 +79,7 @@ export default function Login() {
                 <div className="flex justify-center items-center flex-col w-full bg-white p-4 border">
                     <p className="text-sm">
                         Don't have an account?{' '}
-                        <Link to={ROUTES.SIGNUP} className="font-bold">
+                        <Link to={`/${ROUTES.SIGNUP}`} className="font-bold">
                             Sign up
                         </Link>
                     </p>
