@@ -1,11 +1,31 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
+import { set } from 'firebase/database';
 
 export default function SignUp() {
     useEffect(() => {
         document.title = "Signup - Instagram"
     }, [])
+
+    const [formData, setFormData] = useState({
+        userName: "",
+        fullName: "",
+        email: "",
+        password: ""
+    })
+
+    function handleChange(e) {
+        const { name, value } = e.target
+
+        setFormData(prev => {
+            return {
+                ...prev,
+                [name]: value
+            }
+        })
+
+    }
 
     return (
         <div className="container flex mx-auto max-w-96 items-center h-screen">
@@ -22,25 +42,37 @@ export default function SignUp() {
                             aria-label="Enter your username"
                             className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                             type="text"
+                            name="userName"
+                            value={formData.userName}
                             placeholder="Username"
+                            onChange={handleChange}
                         />
                         <input
                             aria-label="Enter your full name"
                             className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                             type="text"
+                            name="fullName"
+                            value={formData.fullName}
                             placeholder="Full name"
+                            onChange={handleChange}
                         />
                         <input
                             aria-label="Enter your email address"
                             className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                             type="text"
+                            name="email"
+                            value={formData.email}
                             placeholder="Email address"
+                            onChange={handleChange}
                         />
                         <input
                             aria-label="Enter your password"
                             className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                             type="password"
+                            name="password"
+                            value={formData.password}
                             placeholder="Password"
+                            onChange={handleChange}
                         />
                         <button
                             type="submit"
