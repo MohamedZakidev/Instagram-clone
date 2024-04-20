@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
-import { set } from 'firebase/database';
+import FirebaseContext from '../context/firebase';
 
 export default function SignUp() {
     useEffect(() => {
@@ -14,17 +14,45 @@ export default function SignUp() {
         email: "",
         password: ""
     })
+    const { userName, fullName, email, password } = formData
+
+    const [error, setError] = useState("")
+    const isInvalid = !userName || !fullName || !email || !password
+
 
     function handleChange(e) {
         const { name, value } = e.target
-
         setFormData(prev => {
             return {
                 ...prev,
                 [name]: value
             }
         })
+    }
+    const { firebase } = useContext(FirebaseContext)
 
+    async function handleSignup(e) {
+        e.preventDefault()
+        try {
+            const createdUserResult = await firebase.auth().createUserWithEmailAndPassword(email, password)
+            await createdUserResult.user.updateProfile({
+                displayName: userName
+            })
+            await firebase.firestore().collection('users').add({
+                userId: createdUserResult.user.uid,
+                username: username.toLowerCase(),
+                fullName: fullName,
+                emailAddress: email.toLowerCase(),
+                following: [],
+                followers: [],
+                dateCreated: Date.now()
+            })
+
+        } catch (error) {
+            // setEmail("")
+            // setPassword("")
+            setError("Invalid login information")
+        }
     }
 
     return (
@@ -37,13 +65,13 @@ export default function SignUp() {
 
                     <h2 className='text-gray-500 text-sm font-medium text-center pb-4'>Sign up to see photos and videos from your friends.</h2>
 
-                    <form method="POST">
+                    <form onSubmit={handleSignup} method="POST">
                         <input
                             aria-label="Enter your username"
                             className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                             type="text"
                             name="userName"
-                            value={formData.userName}
+                            value={userName}
                             placeholder="Username"
                             onChange={handleChange}
                         />
@@ -52,7 +80,7 @@ export default function SignUp() {
                             className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                             type="text"
                             name="fullName"
-                            value={formData.fullName}
+                            value={fullName}
                             placeholder="Full name"
                             onChange={handleChange}
                         />
@@ -61,7 +89,7 @@ export default function SignUp() {
                             className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                             type="text"
                             name="email"
-                            value={formData.email}
+                            value={email}
                             placeholder="Email address"
                             onChange={handleChange}
                         />
@@ -70,13 +98,17 @@ export default function SignUp() {
                             className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                             type="password"
                             name="password"
-                            value={formData.password}
+                            value={password}
                             placeholder="Password"
                             onChange={handleChange}
                         />
                         <button
+                            disabled={isInvalid}
                             type="submit"
-                            className={`bg-blue-500 text-white w-full rounded h-8 font-bold`}
+                            className={`
+                                bg-blue-500 text-white w-full rounded h-8 font-bold
+                                ${isInvalid ? "cursor-not-allowed opacity-50" : undefined}
+                            `}
                         >
                             Sign Up
                         </button>
