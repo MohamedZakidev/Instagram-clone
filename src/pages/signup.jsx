@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
+// firebase
 import FirebaseContext from '../context/firebase';
 import { getFirestore, collection, doc, addDoc } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
-import firebase from 'firebase/compat/app';
+import { doesUsernameExist } from '../utils/firebase';
+
 
 export default function SignUp() {
     const { app } = useContext(FirebaseContext)
@@ -13,15 +15,15 @@ export default function SignUp() {
 
     const auth = getAuth();
     const [formData, setFormData] = useState({
-        userName: "",
+        username: "",
         fullName: "",
         email: "",
         password: ""
     })
-    const { userName, fullName, email, password } = formData
+    const { username, fullName, email, password } = formData
 
     const [error, setError] = useState("")
-    const isInvalid = !userName || !fullName || !email || !password
+    const isInvalid = !username || !fullName || !email || !password
 
     function handleChange(e) {
         const { name, value } = e.target
@@ -33,11 +35,11 @@ export default function SignUp() {
         })
     }
 
+    doesUsernameExist()
     async function handleSignup(e) {
         e.preventDefault()
         try {
             const createdUserResult = await createUserWithEmailAndPassword(auth, email, password)
-
             await addDoc(usersCollectionRef, {
                 userId: createdUserResult.user.uid,
                 username: username.toLowerCase(),
@@ -47,6 +49,7 @@ export default function SignUp() {
                 followers: [],
                 dateCreated: Date.now()
             });
+
             // await firebase.firestore().collection('users').add({
             //     userId: "createdUserResult.user.uid",
             //     username: username.toLowerCase(),
@@ -59,7 +62,7 @@ export default function SignUp() {
 
         } catch (error) {
             setFormData({
-                userName: "",
+                username: "",
                 fullName: "",
                 email: "",
                 password: ""
@@ -83,9 +86,9 @@ export default function SignUp() {
                             aria-label="Enter your username"
                             className="text-sm text-gray w-full mr-3 py-5 px-4 h-2 border bg-gray-background rounded mb-2"
                             type="text"
-                            name="userName"
-                            value={userName}
-                            placeholder="Username"
+                            name="username"
+                            value={username}
+                            placeholder="username"
                             onChange={handleChange}
                         />
                         <input
