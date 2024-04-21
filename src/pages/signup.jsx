@@ -36,16 +36,16 @@ export default function SignUp() {
     async function handleSignup(e) {
         e.preventDefault()
         try {
-            // const createdUserResult = await createUserWithEmailAndPassword(auth, email, password)
+            const createdUserResult = await createUserWithEmailAndPassword(auth, email, password)
 
             await addDoc(usersCollectionRef, {
-                userId: "createdUserResult.user.uid",
-                username: "username.toLowerCase()",
-                fullName: "fullName",
-                emailAddress: "email.toLowerCase()",
-                following: "[]",
-                followers: "[]",
-                dateCreated: "Date.now()"
+                userId: createdUserResult.user.uid,
+                username: username.toLowerCase(),
+                fullName: fullName,
+                emailAddress: email.toLowerCase(),
+                following: [],
+                followers: [],
+                dateCreated: Date.now()
             });
             // await firebase.firestore().collection('users').add({
             //     userId: "createdUserResult.user.uid",
