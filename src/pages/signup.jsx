@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
 // firebase
 import FirebaseContext from '../context/firebase';
-import { getFirestore, collection, doc, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
 import { doesUsernameExist } from '../utils/firebase';
+import { updateProfile } from 'firebase/auth';
 
 
 export default function SignUp() {
+    // firebase
     const { app } = useContext(FirebaseContext)
     const db = getFirestore(app)
     const usersCollectionRef = collection(db, "users")
-
     const auth = getAuth();
+    //
+
     const [formData, setFormData] = useState({
         username: "",
         fullName: "",
@@ -21,6 +24,8 @@ export default function SignUp() {
         password: ""
     })
     const { username, fullName, email, password } = formData
+
+    const navigate = useNavigate()
 
     const [error, setError] = useState("")
     const isInvalid = !username || !fullName || !email || !password
@@ -35,39 +40,40 @@ export default function SignUp() {
         })
     }
 
-    doesUsernameExist("ahmed", usersCollectionRef);
     async function handleSignup(e) {
         e.preventDefault()
-        try {
-            const createdUserResult = await createUserWithEmailAndPassword(auth, email, password)
-            await addDoc(usersCollectionRef, {
-                userId: createdUserResult.user.uid,
-                username: username.toLowerCase(),
-                fullName: fullName,
-                emailAddress: email.toLowerCase(),
-                following: [],
-                followers: [],
-                dateCreated: Date.now()
-            });
+        const doesUsernameExistResult = await doesUsernameExist(username, usersCollectionRef)
+        console.log(doesUsernameExistResult);
 
-            // await firebase.firestore().collection('users').add({
-            //     userId: "createdUserResult.user.uid",
-            //     username: username.toLowerCase(),
-            //     fullName: fullName,
-            //     emailAddress: email.toLowerCase(),
-            //     following: [],
-            //     followers: [],
-            //     dateCreated: Date.now()
-            // })
+        if (!doesUsernameExist(username, usersCollectionRef)) {
+            try {
+                const createdUserResult = await createUserWithEmailAndPassword(auth, email, password)
 
-        } catch (error) {
-            setFormData({
-                username: "",
-                fullName: "",
-                email: "",
-                password: ""
-            })
-            setError("Invalid login information")
+                await updateProfile(auth.currentUser, {
+                    displayName: username
+                })
+
+                await addDoc(usersCollectionRef, {
+                    userId: createdUserResult.user.uid,
+                    username: username.toLowerCase(),
+                    fullName: fullName,
+                    emailAddress: email.toLowerCase(),
+                    following: [],
+                    followers: [],
+                    dateCreated: Date.now()
+                });
+                navigate(ROUTES.DASHBOARD)
+            } catch (error) {
+                setFormData({
+                    username: "",
+                    fullName: "",
+                    email: "",
+                    password: ""
+                })
+                setError("Invalid login information")
+            }
+        } else {
+            setError("That username is already taken")
         }
     }
 
@@ -80,7 +86,7 @@ export default function SignUp() {
                     </h1>
 
                     <h2 className='text-gray-500 text-sm font-medium text-center pb-4'>Sign up to see photos and videos from your friends.</h2>
-
+                    {error && <p className='mb-4 text-xs text-red-500'>{error}</p>}
                     <form onSubmit={handleSignup} method="POST">
                         <input
                             aria-label="Enter your username"
