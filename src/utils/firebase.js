@@ -1,13 +1,9 @@
-import { useContext } from "react";
-import FirebaseContext from "../context/firebase";
-import { collection, getFirestore } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 
-export async function doesUsernameExist(username) {
-
-    const { app } = useContext(FirebaseContext)
-    const db = getFirestore(app)
+export async function doesUsernameExist(username, usersCollectionRef) {
     const usersCollectionRef = collection(db, "users")
 
-    const result = usersCollectionRef// work here
+
+    const result = query(usersCollectionRef, where("username", "==", username));
     console.log(result);
 }

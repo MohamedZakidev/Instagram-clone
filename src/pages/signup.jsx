@@ -35,7 +35,7 @@ export default function SignUp() {
         })
     }
 
-    doesUsernameExist()
+    doesUsernameExist("ahmed", usersCollectionRef);
     async function handleSignup(e) {
         e.preventDefault()
         try {
