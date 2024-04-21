@@ -2,12 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
 import FirebaseContext from '../context/firebase';
+import { getFirestore, collection, doc, addDoc } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import firebase from 'firebase/compat/app';
 
 export default function SignUp() {
-    useEffect(() => {
-        document.title = "Signup - Instagram"
-    }, [])
+    const { app } = useContext(FirebaseContext)
+    const db = getFirestore(app)
+    const usersCollectionRef = collection(db, "users")
 
+    const auth = getAuth();
     const [formData, setFormData] = useState({
         userName: "",
         fullName: "",
@@ -19,7 +23,6 @@ export default function SignUp() {
     const [error, setError] = useState("")
     const isInvalid = !userName || !fullName || !email || !password
 
-
     function handleChange(e) {
         const { name, value } = e.target
         setFormData(prev => {
@@ -29,28 +32,38 @@ export default function SignUp() {
             }
         })
     }
-    const { firebase } = useContext(FirebaseContext)
 
     async function handleSignup(e) {
         e.preventDefault()
         try {
-            const createdUserResult = await firebase.auth().createUserWithEmailAndPassword(email, password)
-            await createdUserResult.user.updateProfile({
-                displayName: userName
-            })
-            await firebase.firestore().collection('users').add({
-                userId: createdUserResult.user.uid,
-                username: username.toLowerCase(),
-                fullName: fullName,
-                emailAddress: email.toLowerCase(),
-                following: [],
-                followers: [],
-                dateCreated: Date.now()
-            })
+            // const createdUserResult = await createUserWithEmailAndPassword(auth, email, password)
+
+            await addDoc(usersCollectionRef, {
+                userId: "createdUserResult.user.uid",
+                username: "username.toLowerCase()",
+                fullName: "fullName",
+                emailAddress: "email.toLowerCase()",
+                following: "[]",
+                followers: "[]",
+                dateCreated: "Date.now()"
+            });
+            // await firebase.firestore().collection('users').add({
+            //     userId: "createdUserResult.user.uid",
+            //     username: username.toLowerCase(),
+            //     fullName: fullName,
+            //     emailAddress: email.toLowerCase(),
+            //     following: [],
+            //     followers: [],
+            //     dateCreated: Date.now()
+            // })
 
         } catch (error) {
-            // setEmail("")
-            // setPassword("")
+            setFormData({
+                userName: "",
+                fullName: "",
+                email: "",
+                password: ""
+            })
             setError("Invalid login information")
         }
     }
