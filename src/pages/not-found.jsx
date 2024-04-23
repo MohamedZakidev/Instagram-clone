@@ -7,7 +7,9 @@ function NotFound() {
 
     return (
         <div className='bg-gray-100'>
-            <div className=''></div>
+            <div className='max-w-screen-lg mx-auto'>
+                <p className='text-center text-2xl'>Not Found!</p>
+            </div>
         </div>
     )
 }
