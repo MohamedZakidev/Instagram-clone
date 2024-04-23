@@ -43,9 +43,8 @@ export default function SignUp() {
     async function handleSignup(e) {
         e.preventDefault()
         const doesUsernameExistResult = await doesUsernameExist(username, usersCollectionRef)
-        console.log(doesUsernameExistResult);
 
-        if (!doesUsernameExist(username, usersCollectionRef)) {
+        if (doesUsernameExistResult) {
             try {
                 const createdUserResult = await createUserWithEmailAndPassword(auth, email, password)
 

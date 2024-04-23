@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react';
+import Header from '../components/header';
+import Timeline from '../components/timeline';
+import Sidebar from '../components/sidebar/sidebar';
 
-function Dashboard() {
+export default function Dashboard() {
+    useEffect(() => {
+        document.title = 'Instagram';
+    }, []);
+
     return (
-        <div>
-            Hello from Dashboard
-        </div>
+        <p>Hello from Dashboard</p>
     )
 }
-
-export default Dashboard
