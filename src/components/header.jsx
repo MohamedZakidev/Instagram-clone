@@ -2,19 +2,17 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import FirebaseContext from '../context/firebase';
 import * as ROUTES from '../constants/routes';
+import { getAuth, signOut } from 'firebase/auth';
 
 export default function Header() {
-    const { firebase } = useContext(FirebaseContext);
-    const user = false
-
-    function handleSignUp(e) {
-
-    }
-
+    const auth = getAuth()
+    const user = {
+        displayName: "karl"
+    };
     return (
         <header className="h-16 bg-white border-b mb-8">
-            <div className="container mx-auto max-width-lg h-full p-3">
-                <div className="flex justify-between items-center h-full">
+            <div className="container mx-auto max-width-lg h-full">
+                <div className="flex justify-between h-full">
                     <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
                         <h1>
                             <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
@@ -22,15 +20,55 @@ export default function Header() {
                             </Link>
                         </h1>
                     </div>
-                    <div>
-                        {
-                            user ?
-                                <Link to={`${ROUTES.SIGNUP}`} className='font-bold' onClick={handleSignUp}>Sign Out</Link> :
-                                <>
-                                    <Link to={`${ROUTES.LOGIN}`} className='bg-blue-500 text-white text-sm sm:text-base font-bold px-[1.2em] py-[.5em] rounded-[6px] mr-2 sm:mr-4 tracking-wider'>Log In</Link>
-                                    <Link to={`${ROUTES.SIGNUP}`} className='font-bold text-sm sm:text-base tracking-wider'>Sign Up</Link>
-                                </>
-                        }
+                    <div className="text-gray text-center flex items-center align-items">
+                        {user ? (
+                            <>
+                                <Link to={ROUTES.DASHBOARD} arial-label="Home">
+                                    <p>Dashboard</p>
+                                </Link>
+
+                                <button
+                                    type="button"
+                                    title="SIgn Out"
+                                    onClick={() => signOut(auth)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            signOut(auth);
+                                        }
+                                    }}
+                                >
+                                    Sign Out
+                                </button>
+                                <div className="flex items-center cursor-pointer">
+                                    <Link to={`/p/${user.displayName}`}>
+                                        <img
+                                            className="rounded-full h-8 w-8 flex"
+                                            src={`avatars/karl.jpg`}
+                                            alt={`${user.displayName} profile picture`}
+                                        />
+                                    </Link>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <Link to={ROUTES.LOGIN}>
+                                    <button
+                                        type="button"
+                                        className="bg-blue-500 font-bold text-sm rounded text-white w-20 h-8"
+                                    >
+                                        Log In
+                                    </button>
+                                </Link>
+                                <Link to={ROUTES.SIGN_UP}>
+                                    <button
+                                        type="button"
+                                        className="font-bold text-sm rounded text-blue w-20 h-8"
+                                    >
+                                        Sign Up
+                                    </button>
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
