@@ -8,4 +8,4 @@ function Timeline() {
     )
 }
 
-export default timeline
+export default Timeline

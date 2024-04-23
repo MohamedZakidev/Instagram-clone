@@ -62,6 +62,7 @@ export default function SignUp() {
                     dateCreated: Date.now()
                 });
                 navigate(ROUTES.DASHBOARD)
+
             } catch (error) {
                 setFormData({
                     username: "",

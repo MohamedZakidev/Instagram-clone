@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 function NotFound() {
+    useEffect(() => {
+        document.title = '404 - Not Found'
+    }, [])
+
     return (
-        <div>
-            Hello from not found
+        <div className='bg-gray-100'>
+            <div className=''></div>
         </div>
     )
 }
