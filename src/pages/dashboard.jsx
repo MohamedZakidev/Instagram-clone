@@ -10,10 +10,10 @@ export default function Dashboard() {
 
     return (
         <div className='bg-gray-200'>
-            <Header></Header>
+            <Header />
             <div className='grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg'>
-                <Timeline></Timeline>
-                <Sidebar></Sidebar>
+                <Timeline />
+                <Sidebar />
             </div>
         </div>
     )

@@ -1,14 +1,17 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import FirebaseContext from '../context/firebase';
 import * as ROUTES from '../constants/routes';
 import { getAuth, signOut } from 'firebase/auth';
+import UserContext from '../context/user';
 
 export default function Header() {
     const auth = getAuth()
+    const userFromContext = useContext(UserContext)
+    console.log(userFromContext);
     const user = {
-        displayName: "karl"
-    };
+        displayName: userFromContext?.displayName,
+    }
+
     return (
         <header className="h-16 bg-white border-b mb-8">
             <div className="container mx-auto max-width-lg h-full">
@@ -21,7 +24,7 @@ export default function Header() {
                         </h1>
                     </div>
                     <div className="text-gray text-center flex items-center align-items">
-                        {user ? (
+                        {userFromContext ? (
                             <>
                                 <Link to={ROUTES.DASHBOARD} arial-label="Home">
                                     <svg

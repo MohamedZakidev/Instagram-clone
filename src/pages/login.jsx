@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
-import FirebaseContext from "../context/firebase"
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+//firebase
 
 export default function Login() {
     useEffect(() => {
@@ -13,15 +15,15 @@ export default function Login() {
     const [error, setError] = useState("")
     const isInvalid = !email || !password
 
-    const { firebase } = useContext(FirebaseContext)
-
     const navigate = useNavigate()
+
+    const auth = getAuth()
 
     async function handleLogin(e) {
         e.preventDefault()
 
         try {
-            await firebase.auth().signInWithEmailAndPassword(email, password);
+            await signInWithEmailAndPassword(auth, email, password);
             navigate(ROUTES.DASHBOARD)
         }
         catch (error) {
