@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import UserContext from './context/user'
+import useAuthListener from './hooks/useAuthListner'
 import * as ROUTES from "./constants/routes"
 
 const Dashboard = lazy(() => import("./pages/dashboard"))
@@ -11,6 +12,8 @@ const NotFound = lazy(() => import("./pages/not-found"))
 
 
 export default function App() {
+  const user = useAuthListener()
+
   return (
     <UserContext.Provider value={user}>
       <Suspense fallback={<p>loading...</p>}>
