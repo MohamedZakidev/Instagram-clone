@@ -9,13 +9,13 @@ import { doesUsernameExist } from '../utils/firebase';
 import { updateProfile } from 'firebase/auth';
 
 
+// firebase
+
 export default function SignUp() {
-    // firebase
     const { app } = useContext(FirebaseContext)
+    const auth = getAuth();
     const db = getFirestore(app)
     const usersCollectionRef = collection(db, "users")
-    const auth = getAuth();
-    //
 
     const [formData, setFormData] = useState({
         username: "",

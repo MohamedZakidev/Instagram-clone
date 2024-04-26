@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import UserContext from './context/user'
 import useAuthListener from './hooks/useAuthListner'
 import * as ROUTES from "./constants/routes"
+import useUser from './hooks/useUser'
 
 const Dashboard = lazy(() => import("./pages/dashboard"))
 const Login = lazy(() => import("./pages/login"))
