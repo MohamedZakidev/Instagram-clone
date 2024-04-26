@@ -18,7 +18,7 @@ export default function useAuthListener() {
         })
 
         return () => listner()
-    }, [])
+    }, [user])
 
     return user
 }

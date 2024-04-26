@@ -7,7 +7,7 @@ import UserContext from '../context/user';
 export default function Header() {
     const auth = getAuth()
     const userFromContext = useContext(UserContext)
-    console.log(userFromContext);
+
     const user = {
         displayName: userFromContext?.displayName,
     }
@@ -88,7 +88,7 @@ export default function Header() {
                                         Log In
                                     </button>
                                 </Link>
-                                <Link to={ROUTES.SIGN_UP}>
+                                <Link to={ROUTES.SIGNUP}>
                                     <button
                                         type="button"
                                         className="font-bold text-sm rounded text-blue w-20 h-8"
