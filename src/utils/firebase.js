@@ -30,9 +30,21 @@ export async function getUserById(userId) {
     }
 }
 
-// export async function getUserFollowedPhotos(userId, followingUSerIds) {
-//     const result = query(photosCollectionRef, where("userId", "in", followingUSerIds))
-//     const querySnapshot = await getDocs(result)
-//     console.log(querySnapshot.docs[0].data());
-// }
+export async function getUserFollowedPhotos(followingUSerIds) {
+    const result = query(photosCollectionRef, where("userId", "in", followingUSerIds))
+    const querySnapshot = await getDocs(result)
+
+    if (querySnapshot.empty) {
+        return null
+    }
+    else {
+        const photosData = querySnapshot.docs.map(item => {
+            return {
+                ...item.data(),
+                docId: item.id
+            }
+        })
+        return photosData
+    }
+}
 
