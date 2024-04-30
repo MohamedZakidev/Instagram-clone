@@ -18,7 +18,13 @@ export async function getUserById(userId) {
         return null;
     } else {
         // Assuming userId is unique, there should be only one document in the querySnapshot
-        const userData = querySnapshot.docs[0].data();
+        const userData = querySnapshot.docs.map(item => {
+            return {
+                ...item.data(),
+                docId: item.id
+            }
+        });
         return userData;
     }
 }
+// const userData = querySnapshot.docs[0].data();
