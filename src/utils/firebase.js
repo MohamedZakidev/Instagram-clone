@@ -1,6 +1,10 @@
 import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
 import { app } from "../lib/firebase";
 
+const db = getFirestore(app)
+const usersCollectionRef = collection(db, "users")
+const photosCollectionRef = collection(db, "photos")
+
 export async function doesUsernameExist(username, usersCollectionRef) {
     const result = query(usersCollectionRef, where("username", "==", username));
     const querySnapshot = await getDocs(result);
@@ -8,8 +12,6 @@ export async function doesUsernameExist(username, usersCollectionRef) {
 }
 
 export async function getUserById(userId) {
-    const db = getFirestore(app)
-    const usersCollectionRef = collection(db, "users")
     const result = query(usersCollectionRef, where("userId", "==", userId))
     const querySnapshot = await getDocs(result)
 
@@ -27,4 +29,10 @@ export async function getUserById(userId) {
         return userData;
     }
 }
-// const userData = querySnapshot.docs[0].data();
+
+// export async function getUserFollowedPhotos(userId, followingUSerIds) {
+//     const result = query(photosCollectionRef, where("userId", "in", followingUSerIds))
+//     const querySnapshot = await getDocs(result)
+//     console.log(querySnapshot.docs[0].data());
+// }
+

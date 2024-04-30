@@ -6,8 +6,8 @@ import UserContext from '../context/user';
 
 export default function Header() {
     const auth = getAuth()
-    const userFromContext = useContext(UserContext)
 
+    const userFromContext = useContext(UserContext)
     const user = {
         displayName: userFromContext?.displayName,
     }
