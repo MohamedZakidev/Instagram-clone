@@ -11,7 +11,11 @@ function Timeline() {
             {!photos ?
                 <Skeleton count={4} width={640} height={500} className='mb-5 rounded-3xl' /> :
                 (
-                    <p>iam photsto</p>
+                    photos.map(content => {
+                        return (
+                            <p key={content.docId}>{content.username}</p>
+                        )
+                    })
                 )
             }
         </div>
