@@ -1,7 +1,10 @@
 import React from 'react'
+// import Post from "./post/index"
+import Post from './post'
+import useFollowedUsersPhotos from '../hooks/useFollowedUsersPhotos'
+
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import useFollowedUsersPhotos from '../hooks/useFollowedUsersPhotos'
 
 function Timeline() {
     const photos = useFollowedUsersPhotos()
@@ -13,7 +16,7 @@ function Timeline() {
                 (
                     photos.map(content => {
                         return (
-                            <p key={content.docId}>{content.username}</p>
+                            <Post />
                         )
                     })
                 )
