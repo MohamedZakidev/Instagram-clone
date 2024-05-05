@@ -1,5 +1,4 @@
 import React from 'react'
-// import Post from "./post/index"
 import Post from './post'
 import useFollowedUsersPhotos from '../hooks/useFollowedUsersPhotos'
 
@@ -16,7 +15,7 @@ function Timeline() {
                 (
                     photos.map(content => {
                         return (
-                            <Post />
+                            <Post key={content.docId} content={content} />
                         )
                     })
                 )
@@ -24,10 +23,5 @@ function Timeline() {
         </div>
     )
 }
-
-//	- count={4}
-//	- width={640}
-//	- height={500}
-//	- className="mb-5"
 
 export default Timeline
