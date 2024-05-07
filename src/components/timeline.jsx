@@ -7,7 +7,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 function Timeline() {
     const photos = useFollowedUsersPhotos()
-
+    console.log(photos);
     return (
         <div className="container col-span-2">
             {!photos ?
